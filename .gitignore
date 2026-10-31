@@ -1,0 +1,54 @@
+# Secrets
+.env
+.env.*
+!.env.example
+!.env.sample
+
+# Databases and user data
+*.sqlite
+*.sqlite3
+*.db
+*.db-journal
+data/
+sessions/
+uploads/
+users/
+
+# Cookies and authentication
+cookies.txt
+*cookie*
+*session*
+*.pem
+*.key
+
+# Backups
+*.backup*
+*.bak
+*.old
+*.orig
+*.save
+
+# Dependencies and runtime files
+node_modules/
+npm-debug.log*
+*.log
+logs/
+tmp/
+temp/
+downloads/
+
+# OS and editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+--Frag128
+
+# Environment secrets
+.env
+.env.*
+!.env.example
+
+# Local safety backups - never publish
+.community-backup-*/
+.community-backup-final-*/

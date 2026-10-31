@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Video İndir</title>
+  <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="icon" href="img/icon-192.png" type="image/png" sizes="192x192" />
+  <link rel="shortcut icon" href="favicon.ico" />
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png" />
+  <meta name="theme-color" content="#f8f9f6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="Ozvio">
+      <img class="brand-logo" src="img/ozvio-logo.png" alt="Ozvio" width="150" height="40" />
+    </a>
+    <div class="top-right">
+      <div class="lang" role="group" aria-label="Language">
+        <button data-lang="tr">TR</button>
+        <button data-lang="en">EN</button>
+        <button data-lang="ru">RU</button>
+        <button data-lang="de">DE</button>
+        <button data-lang="ar">AR</button>
+        <button data-lang="ku">KU</button>
+      </div>
+      <div id="user-chip" class="user-chip hidden">
+        <span id="u-name"></span>
+        <span id="u-badge" class="badge"></span>
+        <button id="btn-logout" class="link-btn" data-i18n="logout">Çıkış</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <h1 class="title reveal" style="--d:0ms" data-i18n="title">Youtube Video İndir</h1>
+    <p class="sub reveal" style="--d:60ms" data-i18n="sub"></p>
+
+    <!-- GİRİŞ / KAYIT (yalnızca Telegram) -->
+    <section id="view-auth" class="card auth hidden">
+      <p class="hint ta-center" data-i18n="auth_hint"></p>
+      <button id="btn-tg-login" class="btn btn-mint tg-btn" type="button"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.5c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6.1 13.1 1.2 11.6c-1.1-.3-1.1-1.1.2-1.6L20.3 2.7c.9-.3 1.7.2 1.6 1.6z"/></svg><span data-i18n="tg_login"></span></button>
+      <button id="btn-tg-register" class="btn btn-ghost tg-btn" type="button"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true"><path d="M21.9 4.3 18.7 19.5c-.2 1.1-.9 1.4-1.8.9l-5-3.7-2.4 2.3c-.3.3-.5.5-1 .5l.4-5.1 9.3-8.4c.4-.4-.1-.6-.6-.2L6.1 13.1 1.2 11.6c-1.1-.3-1.1-1.1.2-1.6L20.3 2.7c.9-.3 1.7.2 1.6 1.6z"/></svg><span data-i18n="tg_register"></span></button>
+      <div id="tg-wait" class="tg-wait hidden" role="status">
+        <span class="spinner" aria-hidden="true"></span>
+        <b id="tg-wait-title"></b>
+        <span id="tg-wait-sub" class="hint"></span>
+        <div class="tg-links">
+          <a id="tg-open" href="#" target="_blank" rel="noopener" data-i18n="tg_open_again"></a>
+          <button id="tg-cancel" class="link-btn" type="button" data-i18n="tg_cancel"></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ANA UYGULAMA -->
+    <section id="view-app" class="hidden">
+      <div class="searchbar reveal" style="--d:120ms">
+        <input id="d-url" type="url" inputmode="url" data-i18n-ph="url_ph" autocomplete="off" />
+        <button id="btn-go" class="go"><span class="btn-label"></span></button>
+      </div>
+      <p class="legal reveal" style="--d:160ms"><span id="u-quota"></span></p>
+
+      <!-- Video önizleme: yapıştırınca başlık + desteklenen kaliteler -->
+      <div id="preview" class="preview hidden">
+        <div class="pv-img"><img id="pv-img" alt="" /></div>
+        <div class="pv-text">
+          <b id="pv-title"></b>
+          <span id="pv-meta"></span>
+          <span id="pv-q"></span>
+        </div>
+      </div>
+
+      <div class="tiles reveal" style="--d:200ms" id="tiles">
+        <button class="tile active" data-mode="video">
+          <span class="ico ico-red"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></span>
+          <span data-i18n="mode_video"></span>
+        </button>
+        <button class="tile" data-mode="mp3">
+          <span class="ico ico-rose"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg></span>
+          <span data-i18n="mode_mp3"></span>
+        </button>
+        <button class="tile" data-mode="transcript">
+          <span class="ico ico-slate"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M4 5h16v2H4V5zm0 4h16v2H4V9zm0 4h16v2H4v-2zm0 4h10v2H4v-2z"/></svg></span>
+          <span data-i18n="mode_tr"></span>
+        </button>
+      </div>
+
+      <div id="q-wrap" class="q-wrap">
+        <div class="q-inner">
+          <div id="q-chips" class="chips"></div>
+        </div>
+      </div>
+
+      <!-- İlerleme -->
+      <div id="prog" class="prog hidden">
+        <div class="prog-top">
+          <div class="prog-info">
+            <b id="prog-title"></b>
+            <span id="prog-stage"></span>
+          </div>
+          <div id="prog-pct" class="pct">0%</div>
+          <button id="prog-cancel" class="cancel-btn" type="button" data-i18n="btn_cancel"></button>
+        </div>
+        <div class="bar"><div id="prog-fill" class="fill"></div></div>
+        <div id="prog-sub" class="prog-sub"></div>
+      </div>
+
+      <!-- TRANSKRİPT SONUCU -->
+      <section id="tr-card" class="card tr hidden">
+        <div class="tr-head">
+          <div>
+            <h2 id="tr-title"></h2>
+            <p id="tr-meta" class="hint"></p>
+          </div>
+          <select id="tr-lang" class="select hidden" aria-label="Language"></select>
+        </div>
+        <div class="tr-tools">
+          <input id="tr-search" class="field slim" data-i18n-ph="tr_search" />
+          <label class="switch"><input id="tr-ts" type="checkbox" checked /><span class="track"></span><span data-i18n="tr_time"></span></label>
+          <button id="tr-copy" class="btn btn-soft" data-i18n="tr_copy"></button>
+          <button id="tr-txt" class="btn btn-soft">.txt</button>
+          <button id="tr-srt" class="btn btn-soft">.srt</button>
+        </div>
+        <div id="tr-body" class="tr-body"></div>
+      </section>
+    </section>
+
+    <p id="msg" class="msg" role="status"></p>
+  </main>
+
+  <script src="i18n.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
