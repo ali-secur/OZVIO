@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const db = require('../db');
+const { norm } = require('../i18n');
 
 const now = () => Math.floor(Date.now() / 1000);
 const sha = t => crypto.createHash('sha256').update(t).digest('hex');
@@ -15,7 +16,7 @@ function createLoginRequest({ mode, ip, ua, lang }) {
   db.prepare(`INSERT INTO login_requests (token_hash, poll_hash, mode, ip, ua, lang, expires_at)
               VALUES (?,?,?,?,?,?,?)`)
     .run(sha(token), sha(pollSecret), mode === 'register' ? 'register' : 'login',
-      String(ip || '').slice(0, 64), String(ua || '').slice(0, 200), lang === 'en' ? 'en' : 'tr', now() + REQUEST_TTL);
+      String(ip || '').slice(0, 64), String(ua || '').slice(0, 200), norm(lang), now() + REQUEST_TTL);
   return { token, pollSecret };
 }
 const requestByToken = token => db.prepare('SELECT * FROM login_requests WHERE token_hash=?').get(sha(String(token || '')));
@@ -48,7 +49,7 @@ function getSessionUser(sid) {
 const findByChatId = c => db.prepare('SELECT * FROM users WHERE telegram_chat_id=?').get(String(c));
 function createUser({ chatId, name, lang }) {
   const r = db.prepare('INSERT INTO users (username, is_verified, telegram_chat_id, lang) VALUES (?,?,?,?)')
-    .run(String(name || '').slice(0, 40), 1, String(chatId), lang === 'en' ? 'en' : 'tr');
+    .run(String(name || '').slice(0, 40), 1, String(chatId), norm(lang));
   return r.lastInsertRowid;
 }
 const usageLast24h = userId =>
