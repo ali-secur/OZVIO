@@ -27,3 +27,7 @@ YouTube, Instagram, TikTok, X/Twitter, Facebook, Reddit, Twitch, Vimeo, Dailymot
 - Transkript: altyazı yt-dlp ile indirilmeden çekilir; TR <-> EN çeviri sunucuda yapılır. Arama, zaman damgası, kopyala, .txt/.srt.
 - İlerleme + İptal: indirirken yüzde/MB gösterilir, "İptal" ile sunucu süreçleri durdurulur.
 - Dil: site ve Telegram botu Türkçe/İngilizce.
+## Not
+-uygulama yapay zeka ile derlenmiştir kodlar basit bir şekilde okuna bilmektedir.
+-arayüzü merak edenler için canlı sitesi https://ozvio.mehmet54111.xyz adreisnde aktif olarak çalışmaktadır.
+
